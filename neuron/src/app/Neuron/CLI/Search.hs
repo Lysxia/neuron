@@ -14,10 +14,11 @@ where
 import Neuron.CLI.Rib
 import Relude
 import System.Posix.Process
-import System.Which
+import qualified Language.Haskell.TH.Syntax as TH (lift, runIO)
+import Paths_neuron (getDataFileName)
 
 neuronSearchScript :: FilePath
-neuronSearchScript = $(staticWhich "neuron-search")
+neuronSearchScript = $(TH.lift =<< TH.runIO (getDataFileName "src-bash/neuron-search"))
 
 searchScriptArgs :: SearchCommand -> [String]
 searchScriptArgs SearchCommand {..} =
